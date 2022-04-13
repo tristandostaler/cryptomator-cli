@@ -9,35 +9,36 @@ import java.nio.file.Path;
 import java.util.stream.Stream;
 
 public class PasswordFromFileStrategy implements PasswordStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(PasswordFromFileStrategy.class);
 
-    private final String vaultName;
-    private final Path pathToFile;
+	private static final Logger LOG = LoggerFactory.getLogger(PasswordFromFileStrategy.class);
 
-    public PasswordFromFileStrategy(final String vaultName, final Path pathToFile) {
-        this.vaultName = vaultName;
-        this.pathToFile = pathToFile;
-    }
+	private final String vaultName;
+	private final Path pathToFile;
 
-    @Override
-    public String password() {
-        LOG.info("Vault " + "'" + vaultName + "'" + " password from file.");
+	public PasswordFromFileStrategy(final String vaultName, final Path pathToFile) {
+		this.vaultName = vaultName;
+		this.pathToFile = pathToFile;
+	}
 
-        if (Files.isReadable(pathToFile) && Files.isRegularFile(pathToFile)) {
-            try (Stream<String> lines = Files.lines(pathToFile)) {
-                return lines.findFirst().get().toString();
-            } catch (IOException e) {
-                return null;
-            }
-        }
-        return null;
-    }
+	@Override
+	public String password() {
+		LOG.info("Vault " + "'" + vaultName + "'" + " password from file.");
 
-    @Override
-    public void validate() throws IllegalArgumentException {
-        if (!Files.isReadable(pathToFile)) {
-            throw new IllegalArgumentException("Cannot read password from file: " + pathToFile);
-        }
-    }
+		if (Files.isReadable(pathToFile) && Files.isRegularFile(pathToFile)) {
+			try (Stream<String> lines = Files.lines(pathToFile)) {
+				return lines.findFirst().get();
+			} catch (IOException e) {
+				return null;
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void validate() throws IllegalArgumentException {
+		if (!Files.isReadable(pathToFile)) {
+			throw new IllegalArgumentException("Cannot read password from file: " + pathToFile);
+		}
+	}
 
 }

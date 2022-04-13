@@ -8,8 +8,15 @@
  *******************************************************************************/
 package org.cryptomator.cli;
 
+import com.google.common.base.Preconditions;
+import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.frontend.FuseMount;
 import org.cryptomator.cli.frontend.WebDav;
+import org.cryptomator.cryptofs.CryptoFileSystemProperties;
+import org.cryptomator.cryptofs.CryptoFileSystemProvider;
+import org.cryptomator.cryptolib.common.MasterkeyFileAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,14 +27,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
-
-import com.google.common.base.Preconditions;
-import org.apache.commons.cli.ParseException;
-import org.cryptomator.cryptofs.CryptoFileSystemProperties;
-import org.cryptomator.cryptofs.CryptoFileSystemProvider;
-import org.cryptomator.cryptolib.common.MasterkeyFileAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CryptomatorCli {
 
@@ -90,13 +89,11 @@ public class CryptomatorCli {
 			Path vaultPath = Paths.get(args.getVaultPath(vaultName));
 			LOG.info("Unlocking vault \"{}\" located at {}", vaultName, vaultPath);
 			String vaultPassword = args.getPasswordStrategy(vaultName).password();
-			CryptoFileSystemProperties properties = CryptoFileSystemProperties.cryptoFileSystemProperties()
-					.withKeyLoader(keyId -> {
-						Preconditions.checkArgument(SCHEME.equalsIgnoreCase(keyId.getScheme()), "Only supports keys with scheme " + SCHEME);
-						Path keyFilePath = vaultPath.resolve(keyId.getSchemeSpecificPart());
-						return masterkeyFileAccess.load(keyFilePath, vaultPassword);
-					})
-					.build();
+			CryptoFileSystemProperties properties = CryptoFileSystemProperties.cryptoFileSystemProperties().withKeyLoader(keyId -> {
+				Preconditions.checkArgument(SCHEME.equalsIgnoreCase(keyId.getScheme()), "Only supports keys with scheme " + SCHEME);
+				Path keyFilePath = vaultPath.resolve(keyId.getSchemeSpecificPart());
+				return masterkeyFileAccess.load(keyFilePath, vaultPassword);
+			}).build();
 
 			Path vaultRoot = CryptoFileSystemProvider.newFileSystem(vaultPath, properties).getPath("/");
 

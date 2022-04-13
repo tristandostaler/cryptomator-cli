@@ -8,14 +8,6 @@
  *******************************************************************************/
 package org.cryptomator.cli;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -23,9 +15,17 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.pwd.PasswordFromFileStrategy;
+import org.cryptomator.cli.pwd.PasswordFromPropertyStrategy;
 import org.cryptomator.cli.pwd.PasswordFromStdInputStrategy;
 import org.cryptomator.cli.pwd.PasswordStrategy;
-import org.cryptomator.cli.pwd.PasswordFromPropertyStrategy;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Parses program arguments. Does not validate them.
@@ -38,6 +38,7 @@ public class Args {
 			+ " --vault myOtherVault=/path/to/other/vault --password myOtherVault=BarFoo4000" //
 			+ " --vault myThirdVault=/path/to/third/vault --passwordfile myThirdVault=/path/to/passwordfile";
 	private static final Options OPTIONS = new Options();
+
 	static {
 		OPTIONS.addOption(Option.builder() //
 				.longOpt("bind") //
@@ -90,7 +91,7 @@ public class Args {
 	private final Map<String, PasswordStrategy> passwordStrategies;
 	private final Properties fuseMountPoints;
 
-	public Args(CommandLine commandLine) throws ParseException {
+	public Args(CommandLine commandLine) {
 		if (commandLine.hasOption("bind") && commandLine.hasOption("port")) {
 			hasValidWebDavConfig = true;
 			this.bindAddr = commandLine.getOptionValue("bind", "localhost");
@@ -142,8 +143,7 @@ public class Args {
 		if (vaultPasswords.getProperty(vaultName) != null) {
 			passwordStrategy = new PasswordFromPropertyStrategy(vaultName, vaultPasswords.getProperty(vaultName));
 		} else if (vaultPasswordFiles.getProperty(vaultName) != null) {
-			passwordStrategy = new PasswordFromFileStrategy(vaultName,
-					Paths.get(vaultPasswordFiles.getProperty(vaultName)));
+			passwordStrategy = new PasswordFromFileStrategy(vaultName, Paths.get(vaultPasswordFiles.getProperty(vaultName)));
 		}
 
 		this.passwordStrategies.put(vaultName, passwordStrategy);

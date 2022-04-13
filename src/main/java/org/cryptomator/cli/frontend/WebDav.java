@@ -1,19 +1,20 @@
 package org.cryptomator.cli.frontend;
 
-import java.nio.file.Path;
-import java.util.ArrayList;
-
 import org.cryptomator.frontend.webdav.WebDavServer;
 import org.cryptomator.frontend.webdav.servlet.WebDavServletController;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
+
 public class WebDav {
+
 	private static final Logger LOG = LoggerFactory.getLogger(WebDav.class);
 
 	private final WebDavServer server;
-	private ArrayList<WebDavServletController> servlets;
+	private final List<WebDavServletController> servlets;
 
 	public WebDav(String bindAddr, int port) {
 		servlets = new ArrayList<>();

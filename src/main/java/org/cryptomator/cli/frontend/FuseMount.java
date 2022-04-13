@@ -11,10 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 
 public class FuseMount {
+
 	private static final Logger LOG = LoggerFactory.getLogger(FuseMount.class);
 
-	private Path vaultRoot;
-	private Path mountPoint;
+	private final Path vaultRoot;
+	private final Path mountPoint;
 	private Mount mnt;
 
 	public FuseMount(Path vaultRoot, Path mountPoint) {
