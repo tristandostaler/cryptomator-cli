@@ -6,7 +6,6 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.Args;
-import org.cryptomator.cli.CryptomatorCli;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.frontend.FuseMount;
@@ -17,10 +16,13 @@ import org.cryptomator.cryptolib.common.MasterkeyFileAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Set;
@@ -28,12 +30,15 @@ import java.util.Set;
 import static org.cryptomator.cli.Constants.PEPPER;
 import static org.cryptomator.cli.Constants.SCHEME;
 
+@Singleton
 public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 
 	private final static Logger LOG = LoggerFactory.getLogger(CommandMount.class);
 
 	private final static String NAME = "mount";
 	private final static Options OPTIONS = new Options();
+
+	private final SecureRandom random;
 
 	static {
 		OPTIONS.addOption(Option.builder() //
@@ -64,6 +69,11 @@ public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 				.valueSeparator() //
 				.hasArgs() //
 				.build());
+	}
+
+	@Inject
+	public CommandMount(SecureRandom random) {
+		this.random = random;
 	}
 
 	@Override
@@ -143,7 +153,7 @@ public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 		Optional<WebDav> server = initWebDavServer(args);
 		ArrayList<FuseMount> mounts = new ArrayList<>();
 
-		MasterkeyFileAccess masterkeyFileAccess = new MasterkeyFileAccess(PEPPER, CryptomatorCli.getSecureRandom());
+		MasterkeyFileAccess masterkeyFileAccess = new MasterkeyFileAccess(PEPPER, this.random);
 
 		for (String vaultName : args.getVaultNames()) {
 			Path vaultPath = Paths.get(args.getVaultPath(vaultName));

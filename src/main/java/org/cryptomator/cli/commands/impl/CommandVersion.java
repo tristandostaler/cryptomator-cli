@@ -4,9 +4,18 @@ import org.apache.commons.cli.CommandLine;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class CommandVersion implements NoArgsInteractiveCommand, ConsoleCommand {
 
 	private final static String NAME = "version";
+
+	@Inject
+	public CommandVersion() {
+
+	}
 
 	@Override
 	public String interactiveCommandName() {

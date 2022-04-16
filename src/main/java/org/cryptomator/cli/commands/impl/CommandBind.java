@@ -8,12 +8,17 @@ import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.frontend.WebDav;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+import java.util.concurrent.atomic.AtomicReference;
+
+@Singleton
 public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 
 	private static final String NAME = "bind";
 	private static final Options OPTIONS = new Options();
 
-	WebDav server = null;
+	private final AtomicReference<WebDav> webDav;
 
 	static {
 		OPTIONS.addOption(Option.builder() //
@@ -30,6 +35,11 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 				.hasArg() //
 				.optionalArg(false) //
 				.build());
+	}
+
+	@Inject
+	public CommandBind(AtomicReference<WebDav> webDav) {
+		this.webDav = webDav;
 	}
 
 	@Override
@@ -68,7 +78,7 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 	}
 
 	private void execute(CommandLine cmdLine) {
-		if (this.server != null) {
+		if (this.webDav.get() != null) {
 			System.out.println("Already bound!");
 			return;
 		}
@@ -79,6 +89,6 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 			System.out.println("Invalid format!");
 			return;
 		}
-		this.server = new WebDav(cmdLine.getOptionValue("address"), port);
+		this.webDav.set(new WebDav(cmdLine.getOptionValue("address"), port)); //TODO Synchronization
 	}
 }

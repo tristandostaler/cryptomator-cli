@@ -62,6 +62,13 @@
 			<version>${commons.cli.version}</version>
 		</dependency>
 
+		<!-- Dagger -->
+		<dependency>
+			<groupId>com.google.dagger</groupId>
+			<artifactId>dagger</artifactId>
+			<version>2.41</version>
+		</dependency>
+
 		<!-- Logging -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
@@ -85,6 +92,13 @@
 					<target>${java.version}</target>
 					<release>${java.version}</release>
 					<showWarnings>true</showWarnings>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>com.google.dagger</groupId>
+							<artifactId>dagger-compiler</artifactId>
+							<version>2.41</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 

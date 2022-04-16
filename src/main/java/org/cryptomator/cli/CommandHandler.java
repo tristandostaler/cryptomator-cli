@@ -13,6 +13,8 @@ import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.InteractiveCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -24,6 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+@Singleton
 public class CommandHandler {
 
 	private final static Pattern COMMAND_SEPARATOR = Pattern.compile("\\s");
@@ -37,10 +40,13 @@ public class CommandHandler {
 
 	private final ExecutorService handle;
 
-	public CommandHandler() {
+	@Inject
+	public CommandHandler(Set<Command> commands) {
 		var scanner = new Scanner(System.in, StandardCharsets.UTF_8);
 		this.handle = Executors.newSingleThreadExecutor();
 		this.handle.submit(() -> handleInput(scanner));
+
+		registerCommands(commands);
 	}
 
 	public void processArgs(String[] rawArgs) throws ParseException {
@@ -63,6 +69,12 @@ public class CommandHandler {
 	}
 
 	public void registerCommands(Command... commands) {
+		for (Command command : commands) {
+			registerCommand(command);
+		}
+	}
+
+	public void registerCommands(Iterable<Command> commands) {
 		for (Command command : commands) {
 			registerCommand(command);
 		}
@@ -94,7 +106,7 @@ public class CommandHandler {
 				.build());
 		//TODO Groups, etc.
 		var options = command.consoleOptions();
-		if(options != null) {
+		if (options != null) {
 			options.getOptions().forEach(this::registerConsoleOption);
 		}
 	}

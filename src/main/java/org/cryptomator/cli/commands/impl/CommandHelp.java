@@ -1,5 +1,6 @@
 package org.cryptomator.cli.commands.impl;
 
+import dagger.Lazy;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
@@ -8,15 +9,19 @@ import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.text.MessageFormat;
 
+@Singleton
 public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCommand, ConsoleCommand {
 
 	private final static String NAME = "help";
 
-	private CommandHandler commandHandler;
+	private final Lazy<CommandHandler> commandHandler;
 
-	public CommandHelp(CommandHandler commandHandler) {
+	@Inject
+	public CommandHelp(Lazy<CommandHandler> commandHandler) {
 		this.commandHandler = commandHandler;
 	}
 
@@ -44,7 +49,7 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 	public void interactiveExecute() {
 		var builder = new StringBuilder("=== Help for Cryptomator CLI ===\n") //
 				.append("Commands:\n");
-		for (String cmd : commandHandler.getInteractiveCommandNames()) {
+		for (String cmd : this.commandHandler.get().getInteractiveCommandNames()) {
 			var desc = "TODO"; //TODO
 			builder.append("  ");
 			builder.append("%-15s".formatted(MessageFormat.format("{0}:", cmd)));
