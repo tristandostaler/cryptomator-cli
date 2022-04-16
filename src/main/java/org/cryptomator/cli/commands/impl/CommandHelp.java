@@ -47,6 +47,11 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 	}
 
 	@Override
+	public String interactiveUsage() {
+		return null; //TODO
+	}
+
+	@Override
 	public void interactiveExecute(CallContext context) {
 		var builder = new StringBuilder("=== Help for Cryptomator CLI ===\n") //
 				.append("Commands:\n");

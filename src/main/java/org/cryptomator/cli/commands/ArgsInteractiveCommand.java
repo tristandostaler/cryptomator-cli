@@ -9,6 +9,8 @@ public non-sealed interface ArgsInteractiveCommand extends InteractiveCommand {
 
 	Options interactiveOptions();
 
+	String interactiveUsage();
+
 	void interactiveExecute(CallContext context, CommandLine cmdLine);
 
 	void interactiveParsingFailed(CallContext context, ParseException parseException); //TODO Default?

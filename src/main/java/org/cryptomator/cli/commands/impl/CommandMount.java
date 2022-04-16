@@ -56,6 +56,7 @@ public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 				.valueSeparator() //
 				.hasArgs() //
 				.build());
+		//TODO Group for file/password
 		OPTIONS.addOption(Option.builder() //
 				.longOpt("passwordfile") //
 				.argName("Passwordfile for a vault") //
@@ -95,6 +96,11 @@ public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 	@Override
 	public Options consoleOptions() {
 		return OPTIONS;
+	}
+
+	@Override
+	public String interactiveUsage() {
+		return "mount --vault <NAME>=<PATH> [--password <NAME>=<PASSWORD>|--passwordfile <NAME>=<PASSWORD-FILE>] [--fusemount <NAME>=<MOUNTPOINT>]";
 	}
 
 	@Override

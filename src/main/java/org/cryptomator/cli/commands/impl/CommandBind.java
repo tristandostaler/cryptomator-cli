@@ -64,6 +64,11 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 	}
 
 	@Override
+	public String interactiveUsage() {
+		return "bind --address <address> --port <port>";
+	}
+
+	@Override
 	public void interactiveExecute(CallContext context, CommandLine cmdLine) {
 		execute(cmdLine);
 	}
