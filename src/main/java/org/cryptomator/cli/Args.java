@@ -9,11 +9,9 @@
 package org.cryptomator.cli;
 
 import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.pwd.PasswordFromFileStrategy;
 import org.cryptomator.cli.pwd.PasswordFromPropertyStrategy;
 import org.cryptomator.cli.pwd.PasswordFromStdInputStrategy;
@@ -27,9 +25,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-/**
- * Parses program arguments. Does not validate them.
- */
 public class Args {
 
 	private static final String USAGE = "java -jar cryptomator-cli.jar" //
@@ -45,40 +40,6 @@ public class Args {
 				.argName("WebDAV bind address") //
 				.desc("TCP socket bind address of the WebDAV server. Use 0.0.0.0 to accept all incoming connections.") //
 				.hasArg() //
-				.build());
-		OPTIONS.addOption(Option.builder() //
-				.longOpt("port") //
-				.argName("WebDAV port") //
-				.desc("TCP port, the WebDAV server should listen on.") //
-				.hasArg() //
-				.build());
-		OPTIONS.addOption(Option.builder() //
-				.longOpt("vault") //
-				.argName("Path of a vault") //
-				.desc("Format must be vaultName=/path/to/vault") //
-				.valueSeparator() //
-				.hasArgs() //
-				.build());
-		OPTIONS.addOption(Option.builder() //
-				.longOpt("password") //
-				.argName("Password of a vault") //
-				.desc("Format must be vaultName=password") //
-				.valueSeparator() //
-				.hasArgs() //
-				.build());
-		OPTIONS.addOption(Option.builder() //
-				.longOpt("passwordfile") //
-				.argName("Passwordfile for a vault") //
-				.desc("Format must be vaultName=passwordfile") //
-				.valueSeparator() //
-				.hasArgs() //
-				.build());
-		OPTIONS.addOption(Option.builder() //
-				.longOpt("fusemount") //
-				.argName("mount point") //
-				.desc("Format must be vaultName=mountpoint") //
-				.valueSeparator() //
-				.hasArgs() //
 				.build());
 	}
 
@@ -126,11 +87,6 @@ public class Args {
 
 	public String getVaultPath(String vaultName) {
 		return vaultPaths.getProperty(vaultName);
-	}
-
-	public static Args parse(String[] arguments) throws ParseException {
-		CommandLine commandLine = new DefaultParser().parse(OPTIONS, arguments);
-		return new Args(commandLine);
 	}
 
 	public static void printUsage() {
