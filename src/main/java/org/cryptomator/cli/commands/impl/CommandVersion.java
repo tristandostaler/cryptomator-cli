@@ -1,6 +1,7 @@
 package org.cryptomator.cli.commands.impl;
 
 import org.apache.commons.cli.CommandLine;
+import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
@@ -28,12 +29,12 @@ public class CommandVersion implements NoArgsInteractiveCommand, ConsoleCommand 
 	}
 
 	@Override
-	public void consoleExecute(CommandLine consoleCmdLine) {
+	public void consoleExecute(CallContext context, CommandLine consoleCmdLine) {
 		execute();
 	}
 
 	@Override
-	public void interactiveExecute() {
+	public void interactiveExecute(CallContext context) {
 		execute();
 	}
 

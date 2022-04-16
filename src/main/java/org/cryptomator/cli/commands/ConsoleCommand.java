@@ -2,6 +2,7 @@ package org.cryptomator.cli.commands;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
+import org.cryptomator.cli.CallContext;
 
 public non-sealed interface ConsoleCommand extends Command {
 
@@ -11,6 +12,6 @@ public non-sealed interface ConsoleCommand extends Command {
 		return null;
 	}
 
-	void consoleExecute(CommandLine consoleCmdLine);
+	void consoleExecute(CallContext context, CommandLine consoleCmdLine);
 
 }

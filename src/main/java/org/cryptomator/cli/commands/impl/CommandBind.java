@@ -4,6 +4,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.frontend.WebDav;
@@ -63,17 +64,17 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 	}
 
 	@Override
-	public void interactiveExecute(CommandLine cmdLine) {
+	public void interactiveExecute(CallContext context, CommandLine cmdLine) {
 		execute(cmdLine);
 	}
 
 	@Override
-	public void interactiveParsingFailed(ParseException parseException, String cmdLine) {
+	public void interactiveParsingFailed(CallContext context, ParseException exception) {
 		System.out.println("Parsing failed!");
 	}
 
 	@Override
-	public void consoleExecute(CommandLine consoleCmdLine) {
+	public void consoleExecute(CallContext context, CommandLine consoleCmdLine) {
 		execute(consoleCmdLine);
 	}
 

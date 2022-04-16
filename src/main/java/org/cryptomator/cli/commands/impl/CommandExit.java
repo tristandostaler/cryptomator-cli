@@ -1,5 +1,6 @@
 package org.cryptomator.cli.commands.impl;
 
+import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
 import javax.inject.Inject;
@@ -19,7 +20,7 @@ public class CommandExit implements NoArgsInteractiveCommand {
 	}
 
 	@Override
-	public void interactiveExecute() {
+	public void interactiveExecute(CallContext context) {
 		System.out.println("Exit without args");
 		//CommandHandler.getInstance().stop();
 		//TODO

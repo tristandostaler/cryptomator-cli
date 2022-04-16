@@ -56,7 +56,7 @@ public class CommandHandler {
 				.filter(entry -> cmdLine.hasOption(entry.getKey())) //
 				.map(Map.Entry::getValue) //
 				.toList();
-		commands.forEach(cmd -> cmd.consoleExecute(cmdLine));
+		commands.forEach(cmd -> cmd.consoleExecute(new CallContext(this, Joiner.on(" ").join(rawArgs)), cmdLine));
 	}
 
 	public void stop() {
@@ -144,9 +144,10 @@ public class CommandHandler {
 		}
 
 		var args = split.length == 1 ? null : blankToNull(split[1]);
+		var context = new CallContext(this, read);
 		if (args == null) {
 			if (command instanceof NoArgsInteractiveCommand withoutArgs) {
-				withoutArgs.interactiveExecute();
+				withoutArgs.interactiveExecute(context);
 			} else {
 				this.helpFormatter.printHelp("TODO", "Arguments required for command!", ((ArgsInteractiveCommand) command).interactiveOptions(), null);
 			}
@@ -154,9 +155,9 @@ public class CommandHandler {
 			if (command instanceof ArgsInteractiveCommand withArgs) {
 				try {
 					var options = withArgs.interactiveOptions();
-					withArgs.interactiveExecute(options == null ? null : this.parser.parse(options, COMMAND_SEPARATOR.split(args)));
+					withArgs.interactiveExecute(context, options == null ? null : this.parser.parse(options, COMMAND_SEPARATOR.split(args)));
 				} catch (ParseException e) {
-					withArgs.interactiveParsingFailed(e, args);
+					withArgs.interactiveParsingFailed(context, e); //TODO A bit of formatting?
 				}
 			} else {
 				System.out.println("Command must not be invoked with arguments!");

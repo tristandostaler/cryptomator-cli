@@ -4,6 +4,7 @@ import dagger.Lazy;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.CommandHandler;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
@@ -46,7 +47,7 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 	}
 
 	@Override
-	public void interactiveExecute() {
+	public void interactiveExecute(CallContext context) {
 		var builder = new StringBuilder("=== Help for Cryptomator CLI ===\n") //
 				.append("Commands:\n");
 		for (String cmd : this.commandHandler.get().getInteractiveCommandNames()) {
@@ -60,17 +61,17 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 	}
 
 	@Override
-	public void interactiveExecute(CommandLine cmdLine) {
+	public void interactiveExecute(CallContext context, CommandLine cmdLine) {
 
 	}
 
 	@Override
-	public void interactiveParsingFailed(ParseException parseException, String cmdLine) {
+	public void interactiveParsingFailed(CallContext context, ParseException parseException) {
 
 	}
 
 	@Override
-	public void consoleExecute(CommandLine consoleCmdLine) {
+	public void consoleExecute(CallContext context, CommandLine consoleCmdLine) {
 
 	}
 }

@@ -6,6 +6,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.Args;
+import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.frontend.FuseMount;
@@ -97,18 +98,18 @@ public class CommandMount implements ArgsInteractiveCommand, ConsoleCommand {
 	}
 
 	@Override
-	public void interactiveExecute(CommandLine cmdLine) {
+	public void interactiveExecute(CallContext context, CommandLine cmdLine) {
 		execute(cmdLine);
 	}
 
 	@Override
-	public void interactiveParsingFailed(ParseException parseException, String cmdLine) {
+	public void interactiveParsingFailed(CallContext context, ParseException parseException) {
 		System.out.println("Mount > FAILED");
 		parseException.printStackTrace();
 	}
 
 	@Override
-	public void consoleExecute(CommandLine cmdLine) {
+	public void consoleExecute(CallContext context, CommandLine cmdLine) {
 		execute(cmdLine);
 	}
 
