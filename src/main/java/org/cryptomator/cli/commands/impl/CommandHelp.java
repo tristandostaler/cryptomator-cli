@@ -3,7 +3,6 @@ package org.cryptomator.cli.commands.impl;
 import dagger.Lazy;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
 import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.CommandHandler;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
@@ -67,11 +66,6 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 
 	@Override
 	public void interactiveExecute(CallContext context, CommandLine cmdLine) {
-
-	}
-
-	@Override
-	public void interactiveParsingFailed(CallContext context, ParseException parseException) {
 
 	}
 

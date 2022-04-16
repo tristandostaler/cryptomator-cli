@@ -95,6 +95,10 @@ public class CommandHandler {
 		return new HashSet<>(this.interactiveCommands.keySet());
 	}
 
+	public HelpFormatter getHelpFormatter() {
+		return this.helpFormatter;
+	}
+
 	private void registerConsoleCommand(ConsoleCommand command) {
 		var name = command.consoleCommandName();
 		if (this.consoleOptions.hasLongOption(name)) {

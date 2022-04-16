@@ -13,6 +13,7 @@ public non-sealed interface ArgsInteractiveCommand extends InteractiveCommand {
 
 	void interactiveExecute(CallContext context, CommandLine cmdLine);
 
-	void interactiveParsingFailed(CallContext context, ParseException parseException); //TODO Default?
-
+	default void interactiveParsingFailed(CallContext context, ParseException parseException) {
+		context.caller().getHelpFormatter().printHelp(interactiveUsage(), interactiveOptions());
+	}
 }
