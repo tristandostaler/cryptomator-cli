@@ -1,7 +1,9 @@
 package org.cryptomator.cli.commands.impl;
 
+import de.skymatic.autobindings.BindIntoSet;
 import org.apache.commons.cli.CommandLine;
 import org.cryptomator.cli.CallContext;
+import org.cryptomator.cli.commands.Command;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
@@ -14,6 +16,7 @@ public class CommandVersion implements NoArgsInteractiveCommand, ConsoleCommand 
 	private final static String NAME = "version";
 
 	@Inject
+	@BindIntoSet(module = "org.cryptomator.cli.commands.CommandModule", bindTo = Command.class)
 	public CommandVersion() {
 
 	}

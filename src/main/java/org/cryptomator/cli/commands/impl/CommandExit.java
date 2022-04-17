@@ -1,6 +1,8 @@
 package org.cryptomator.cli.commands.impl;
 
+import de.skymatic.autobindings.BindIntoSet;
 import org.cryptomator.cli.CallContext;
+import org.cryptomator.cli.commands.Command;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
 import javax.inject.Inject;
@@ -10,6 +12,7 @@ import javax.inject.Singleton;
 public class CommandExit implements NoArgsInteractiveCommand {
 
 	@Inject
+	@BindIntoSet(module = "org.cryptomator.cli.commands.CommandModule", bindTo = Command.class)
 	public CommandExit() {
 
 	}

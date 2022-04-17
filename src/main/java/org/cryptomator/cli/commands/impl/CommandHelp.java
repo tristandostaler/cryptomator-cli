@@ -1,11 +1,13 @@
 package org.cryptomator.cli.commands.impl;
 
 import dagger.Lazy;
+import de.skymatic.autobindings.BindIntoSet;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Options;
 import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.CommandHandler;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
+import org.cryptomator.cli.commands.Command;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.commands.NoArgsInteractiveCommand;
 
@@ -21,6 +23,7 @@ public class CommandHelp implements ArgsInteractiveCommand, NoArgsInteractiveCom
 	private final Lazy<CommandHandler> commandHandler;
 
 	@Inject
+	@BindIntoSet(module = "org.cryptomator.cli.commands.CommandModule", bindTo = Command.class)
 	public CommandHelp(Lazy<CommandHandler> commandHandler) {
 		this.commandHandler = commandHandler;
 	}

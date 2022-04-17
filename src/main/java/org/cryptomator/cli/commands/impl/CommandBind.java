@@ -1,10 +1,12 @@
 package org.cryptomator.cli.commands.impl;
 
+import de.skymatic.autobindings.BindIntoSet;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.cryptomator.cli.CallContext;
 import org.cryptomator.cli.commands.ArgsInteractiveCommand;
+import org.cryptomator.cli.commands.Command;
 import org.cryptomator.cli.commands.ConsoleCommand;
 import org.cryptomator.cli.frontend.WebDav;
 
@@ -38,6 +40,7 @@ public class CommandBind implements ArgsInteractiveCommand, ConsoleCommand {
 	}
 
 	@Inject
+	@BindIntoSet(module = "org.cryptomator.cli.commands.CommandModule", bindTo = Command.class)
 	public CommandBind(AtomicReference<WebDav> webDav) {
 		this.webDav = webDav;
 	}

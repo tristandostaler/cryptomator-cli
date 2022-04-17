@@ -68,6 +68,11 @@
 			<artifactId>dagger</artifactId>
 			<version>2.41</version>
 		</dependency>
+		<dependency>
+			<groupId>de.skymatic.autobindings</groupId>
+			<artifactId>autobindings</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 
 		<!-- Logging -->
 		<dependency>
@@ -97,6 +102,11 @@
 							<groupId>com.google.dagger</groupId>
 							<artifactId>dagger-compiler</artifactId>
 							<version>2.41</version>
+						</path>
+						<path>
+							<groupId>de.skymatic.autobindings</groupId>
+							<artifactId>autobindings</artifactId>
+							<version>1.0.0-SNAPSHOT</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
